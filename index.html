@@ -171,11 +171,13 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .tl-event{font-family:'Great Vibes',cursive;font-size:26px;color:var(--gold-light);line-height:1.1;margin-bottom:4px}
 .tl-desc{font-family:'Cormorant Garamond',serif;font-size:13.5px;font-style:italic;color:rgba(42,8,8,.6);line-height:1.5}
 @media(max-width:600px){
-  .map-journey{min-height:0;display:flex;flex-direction:column;align-items:center;gap:0}
-  .map-path-svg{display:none}
-  .jcard,.map-pin-marker{position:static!important;width:auto!important;left:auto!important;right:auto!important;top:auto!important}
-  .jcard{width:100%!important;text-align:left!important;padding:0!important;margin-bottom:28px}
-  .map-pin-marker{margin-bottom:10px;margin-left:auto;margin-right:auto}
+  .map-journey{min-height:0;display:block;position:relative;padding-left:38px}
+  .map-journey::before{content:'';position:absolute;left:14px;top:20px;bottom:20px;width:2px;background:linear-gradient(to bottom,rgba(139,18,18,0),rgba(139,18,18,0.25) 6%,rgba(139,18,18,0.25) 94%,rgba(139,18,18,0));border-radius:2px}
+  .map-path-svg{display:none!important}
+  .map-pin-marker{display:none!important}
+  .jcard{position:relative!important;display:block!important;width:100%!important;left:auto!important;right:auto!important;top:auto!important;text-align:left!important;padding:0!important;margin-bottom:28px}
+  .jcard::before{content:'';position:absolute;left:-30px;top:16px;width:13px;height:13px;border-radius:50%;background:var(--red);border:2px solid var(--bg);box-shadow:0 0 0 2px rgba(139,18,18,0.35);z-index:2}
+  .jcard:last-child::before{background:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,0.4)}
 }
 
 /* ── SCHEDULE ── */
@@ -214,11 +216,23 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .photo-placeholder svg{width:32px;height:32px;stroke:var(--gold-dim)}
 .photo-placeholder span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase}
 .photo-cell::after{content:'';position:absolute;inset:5px;border:.4px solid rgba(139,18,18,.12);pointer-events:none}
+.photo-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.photo-cell:hover img{transform:scale(1.05)}
+.gallery-empty{grid-column:1/-1;text-align:center;padding:48px 24px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(42,8,8,.5);line-height:1.8}
+.gallery-empty strong{font-style:normal;font-family:'Cinzel',serif;font-size:12px;color:var(--gold-dim);letter-spacing:.15em}
+/* ── LIGHTBOX ── */
+#lightbox{display:none;opacity:0;position:fixed;inset:0;z-index:9999;background:rgba(11,2,2,.96);align-items:center;justify-content:center;transition:opacity .3s ease;flex-direction:column}
+.lb-close{position:absolute;top:18px;right:22px;background:none;border:none;color:rgba(243,232,216,.7);font-size:30px;cursor:pointer;line-height:1;padding:4px 8px}
+.lb-close:hover{color:#f3e8d8}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(243,232,216,.25);color:rgba(243,232,216,.8);width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:24px;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+.lb-nav:hover{border-color:rgba(243,232,216,.6);color:#f3e8d8}
+.lb-prev{left:16px}.lb-next{right:16px}
+.lb-img{max-width:90vw;max-height:85vh;object-fit:contain;transition:opacity .2s ease;border:1px solid rgba(201,168,76,.15)}
 
 /* ── RSVP ── */
 #rsvp{background:linear-gradient(180deg,#f3e8d8 0%,#ecdcc8 50%,#f3e8d8 100%)}
 .rsvp-card{background:linear-gradient(155deg,#f3e8d8,#ecdcc8);border:1px solid rgba(139,18,18,.45);padding:clamp(28px,5vw,48px) clamp(24px,5vw,48px);max-width:480px;width:100%;position:relative;margin-top:32px}
-.rsvp-card::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(139,18,18,.18)}
+.rsvp-card::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(139,18,18,.18);pointer-events:none}
 .rsvp-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(42,8,8,.65);margin-bottom:28px;line-height:1.6}
 .field-group{margin-bottom:18px;text-align:left}
 .field-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.28em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:6px}
@@ -530,13 +544,8 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
   <div class="section-eyebrow reveal">Memories</div>
   <div class="section-title reveal reveal-d1">Our Gallery</div>
   <div class="gold-rule reveal reveal-d2"></div>
-  <div class="photo-grid reveal reveal-d3">
-    <div class="photo-cell wide"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Your favourite photo</span></div></div>
-    <div class="photo-cell"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Add photo</span></div></div>
-    <div class="photo-cell tall"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Add photo</span></div></div>
-    <div class="photo-cell"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Add photo</span></div></div>
-    <div class="photo-cell"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Add photo</span></div></div>
-    <div class="photo-cell wide"><div class="photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Your favourite photo together</span></div></div>
+  <div class="photo-grid reveal reveal-d3" id="gallery-grid">
+    <div class="gallery-empty">Loading gallery…</div>
   </div>
 </section>
 
@@ -768,14 +777,85 @@ function initScratch(){
 }
 
 /* ── RSVP ── */
-function submitRSVP(){
+async function submitRSVP(){
   const name=document.getElementById('rsvp-name').value.trim();
   const email=document.getElementById('rsvp-email').value.trim();
-  if(!name||!email)return;
+  if(!name||!email){
+    if(!name)document.getElementById('rsvp-name').style.outline='2px solid var(--red)';
+    if(!email)document.getElementById('rsvp-email').style.outline='2px solid var(--red)';
+    return;
+  }
+  const attending=document.querySelector('input[name="attending"]:checked')?.value||'not specified';
+  const guests=document.getElementById('rsvp-guests').value;
+  const dietary=document.getElementById('rsvp-diet').value.trim();
+  const note=document.getElementById('rsvp-note').value.trim();
+  const btn=document.querySelector('.rsvp-btn');
+  btn.textContent='Sending…';btn.disabled=true;
+  try{
+    await fetch('/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,email,attending,guests,dietary,note})});
+  }catch(e){}
   document.getElementById('rsvp-form').style.display='none';
   document.getElementById('rsvp-success').style.display='block';
   spawnConfetti(160,false);
 }
+
+/* ── GALLERY ── */
+let lbPhotos=[],lbIdx=0;
+const lbPatterns=[0,1,2,1,1,0,1,1,2,1];
+async function initGallery(){
+  const grid=document.getElementById('gallery-grid');
+  if(!grid)return;
+  try{
+    const res=await fetch('/photos');
+    const photos=await res.json();
+    if(!photos.length){
+      grid.innerHTML='<div class="gallery-empty">Drop your photos into the <strong>photos/</strong> folder, then refresh.</div>';
+      return;
+    }
+    lbPhotos=photos;
+    grid.innerHTML='';
+    photos.forEach((src,i)=>{
+      const p=lbPatterns[i%lbPatterns.length];
+      const cell=document.createElement('div');
+      cell.className='photo-cell'+(p===0?' wide':p===2?' tall':'');
+      const img=document.createElement('img');
+      img.src=src;img.alt='Wedding photo '+(i+1);img.loading='lazy';
+      cell.appendChild(img);
+      cell.addEventListener('click',()=>openLightbox(i));
+      grid.appendChild(cell);
+    });
+  }catch{
+    grid.innerHTML='<div class="gallery-empty">Start the site with <strong>node server.js</strong> and add photos to the <strong>photos/</strong> folder to see the gallery.</div>';
+  }
+}
+function openLightbox(idx){
+  lbIdx=idx;
+  const lb=document.getElementById('lightbox');
+  lb.querySelector('.lb-img').src=lbPhotos[idx];
+  lb.style.display='flex';
+  requestAnimationFrame(()=>lb.style.opacity='1');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  const lb=document.getElementById('lightbox');
+  lb.style.opacity='0';
+  setTimeout(()=>{lb.style.display='none';document.body.style.overflow='';},300);
+}
+function lightboxNav(dir){
+  lbIdx=(lbIdx+dir+lbPhotos.length)%lbPhotos.length;
+  const img=document.getElementById('lightbox').querySelector('.lb-img');
+  img.style.opacity='0';
+  setTimeout(()=>{img.src=lbPhotos[lbIdx];img.style.opacity='1';},200);
+}
+function lbBgClick(e){if(e.target===document.getElementById('lightbox'))closeLightbox();}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lightbox').style.display==='flex'){
+    if(e.key==='Escape')closeLightbox();
+    if(e.key==='ArrowLeft')lightboxNav(-1);
+    if(e.key==='ArrowRight')lightboxNav(1);
+  }
+});
 
 /* ── SCROLL REVEAL + ROSE BLOOM ── */
 function initReveal(){
@@ -792,7 +872,15 @@ function initReveal(){
 
   initScratch();
   init3DTilt();
+  initGallery();
 }
 </script>
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="lbBgClick(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lightboxNav(-1)">&#8249;</button>
+  <img class="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lightboxNav(1)">&#8250;</button>
+</div>
 </body>
 </html>

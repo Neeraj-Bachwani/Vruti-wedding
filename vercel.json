@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/rsvp",   "destination": "/api/rsvp" },
+    { "source": "/photos", "destination": "/api/photos" }
+  ]
+}
