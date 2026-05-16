@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vruti & Ravneet — Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -45,19 +45,24 @@ body{
 .corner-piece.bl{bottom:12px;left:12px;transform:scaleY(-1)}
 .corner-piece.br{bottom:12px;right:12px;transform:scale(-1,-1)}
 
-/* ── INTRO (stays dark) ── */
-#intro{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2d0808 0%,#110202 65%,#080101 100%);transition:opacity 1.2s ease}
+/* ── INTRO ── */
+#intro{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background-color:#f3e8d8;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20L0 0M40 0L20 20M20 20L40 40M0 40L20 20' stroke='%238b1212' stroke-width='0.4' stroke-opacity='0.05' fill='none'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 20%,rgba(139,18,18,0.07) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(139,18,18,0.06) 0%,transparent 50%);transition:opacity 1.2s ease}
 #intro.hidden{opacity:0;pointer-events:none}
-#envelope-wrap{position:relative;width:min(380px,92vw);cursor:pointer;filter:drop-shadow(0 28px 90px rgba(0,0,0,.8));transition:transform .5s ease,filter .5s ease}
-#envelope-wrap:hover{transform:translateY(-7px);filter:drop-shadow(0 40px 100px rgba(0,0,0,.9)) drop-shadow(0 0 35px rgba(201,168,76,.18))}
+#envelope-wrap{position:relative;width:min(380px,92vw);cursor:pointer;transition:transform .5s ease}
+#envelope-wrap:hover{transform:translateY(-7px)}
+#envelope-svg{width:100%;display:block;overflow:visible;filter:drop-shadow(0 18px 50px rgba(80,10,10,.35));transition:filter .5s ease}
+#envelope-wrap:hover #envelope-svg{filter:drop-shadow(0 28px 65px rgba(80,10,10,.42)) drop-shadow(0 0 28px rgba(139,18,18,.18))}
 #envelope-wrap.opening{pointer-events:none;animation:envFall 1.1s 3.6s ease-in forwards}
-#envelope-svg{width:100%;display:block}
 #flap{transform-origin:50% 0%;transform-box:fill-box}
 #envelope-wrap.opening #flap{animation:flapOpen 1.9s .35s cubic-bezier(.4,0,.15,1) forwards}
 @keyframes flapOpen{0%{transform:rotateX(0)}100%{transform:rotateX(-180deg)}}
 #seal-group{transform-origin:50% 50%;transform-box:fill-box}
-#envelope-wrap.opening #seal-group{animation:sealPop .75s .18s cubic-bezier(.34,1.4,.64,1) forwards}
-@keyframes sealPop{0%{transform:scale(1);opacity:1}45%{transform:scale(1.3);opacity:.8}100%{transform:scale(0);opacity:0}}
+#envelope-wrap.opening #seal-group{animation:sealPop 1.4s .18s cubic-bezier(.25,.46,.45,.94) forwards}
+@keyframes sealPop{
+  0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1}
+  18%{transform:translate(-4px,-18px) scale(1.3) rotate(-8deg);opacity:1}
+  100%{transform:translate(30px,520px) scale(0.65) rotate(55deg);opacity:0}
+}
 #card-wrap{position:absolute;bottom:11%;left:50%;transform:translateX(-50%) translateY(0);width:80%;z-index:2;opacity:0}
 #envelope-wrap.opening #card-wrap{animation:cardUp 1.7s 1.6s cubic-bezier(.22,1,.36,1) forwards}
 @keyframes cardUp{0%{transform:translateX(-50%) translateY(0);opacity:0}16%{opacity:1}100%{transform:translateX(-50%) translateY(-96%);opacity:1}}
@@ -69,16 +74,21 @@ body{
 .c-div{width:50px;height:.5px;background:linear-gradient(90deg,transparent,#c9a84c,transparent);margin:9px auto}
 .c-sub{font-family:'Cinzel',serif;font-size:6.5px;letter-spacing:.22em;color:#c9a84c;text-transform:uppercase;margin-top:8px}
 @keyframes envFall{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(140vh) scale(.8);opacity:0}}
-.tap-label{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:7px;letter-spacing:.38em;color:rgba(201,168,76,.42);text-transform:uppercase;white-space:nowrap;animation:breathe 2.8s ease-in-out infinite}
+.tap-label{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:7px;letter-spacing:.38em;color:rgba(139,18,18,.45);text-transform:uppercase;white-space:nowrap;animation:breathe 2.8s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.3}50%{opacity:.9}}
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:clamp(16px,3.5vw,44px);padding:18px 24px;background:linear-gradient(180deg,rgba(243,232,216,.97) 0%,rgba(243,232,216,0) 100%);backdrop-filter:blur(6px)}
-.nav-brand{display:none;font-family:'Great Vibes',cursive;font-size:26px;color:var(--gold-dim)}
+.nav-brand{display:none;line-height:1}
+.nav-brand img{height:64px;width:auto;display:block}
 .nav-links{display:flex;gap:clamp(16px,3.5vw,44px);align-items:center}
 nav a{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.32em;color:var(--gold-dim);text-decoration:none;text-transform:uppercase;transition:color .3s ease}
 nav a:hover{color:var(--red-deep)}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:101}
+.nav-mute{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--gold-dim);line-height:1;z-index:101;transition:color .2s}
+.nav-mute:hover{color:var(--red)}
+.nav-mute svg{display:block;stroke:currentColor}
+@media(max-width:768px){.nav-mute{display:flex;align-items:center;margin-left:auto}}
 .nav-burger span{display:block;width:22px;height:1.5px;background:var(--gold-dim);transition:all .3s ease;transform-origin:center}
 .nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
@@ -96,7 +106,7 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .section-bg-ornament{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(139,18,18,.06) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(139,18,18,.04) 0%,transparent 70%)}
 .gold-rule{width:160px;height:.6px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:18px auto}
 .gold-rule.wide{width:260px}
-.section-eyebrow{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.42em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px}
+.section-eyebrow{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.38em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px}
 .section-title{font-family:'Great Vibes',cursive;font-size:clamp(48px,10vw,80px);color:var(--gold-light);text-shadow:0 0 40px rgba(139,18,18,.12);line-height:1.05;margin-bottom:4px}
 .ornament-line{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0;font-family:'Cinzel',serif;font-size:10px;color:var(--gold-dim);letter-spacing:.2em}
 .ornament-line::before,.ornament-line::after{content:'';flex:1;max-width:80px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-dim))}
@@ -123,11 +133,11 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 
 /* ── HERO ── */
 #hero{min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#ecdcc8 0%,#f3e8d8 55%,#f8f2ea 100%)}
-.hero-together{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:5px}
-.hero-invited{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.32em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px}
+.hero-together{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.4em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:5px}
+.hero-invited{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.32em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px}
 .hero-names{font-family:'Great Vibes',cursive;font-size:clamp(64px,15vw,108px);color:var(--gold-light);line-height:.95;text-shadow:0 0 60px rgba(139,18,18,.15)}
 .hero-and{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;color:var(--gold-dim);display:block;margin:8px 0}
-.hero-venue{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.28em;color:var(--gold-dim);text-transform:uppercase;margin-top:6px}
+.hero-venue{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;color:var(--gold-dim);text-transform:uppercase;margin-top:6px}
 .scroll-cta{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.35em;color:var(--gold-dim);text-transform:uppercase}
 .scroll-arrow{width:11px;height:11px;border-right:1px solid var(--gold-dim);border-bottom:1px solid var(--gold-dim);transform:rotate(45deg);animation:arrowBounce 1.9s ease-in-out infinite}
 @keyframes arrowBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
@@ -142,7 +152,7 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 
 /* ── DATE SCRATCH ── */
 #the-date{background:linear-gradient(180deg,#f3e8d8 0%,#e4d0b8 50%,#f3e8d8 100%)}
-.scratch-instruction{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.35em;color:var(--gold-dim);text-transform:uppercase;margin-top:6px;display:flex;align-items:center;gap:10px}
+.scratch-instruction{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.35em;color:var(--gold-dim);text-transform:uppercase;margin-top:6px;display:flex;align-items:center;gap:10px}
 .scratch-instruction::before,.scratch-instruction::after{content:'✦';color:var(--gold-dim);font-size:10px}
 .scratch-boxes{display:flex;gap:clamp(12px,3.5vw,32px);justify-content:center;margin-top:30px;flex-wrap:wrap;align-items:flex-start}
 .scratch-box{position:relative;width:clamp(100px,25vw,150px);height:clamp(145px,33vw,185px);border:1px solid rgba(139,18,18,.45);background:linear-gradient(145deg,#f3e8d8,#ecdcc8);overflow:hidden;cursor:crosshair;border-radius:3px}
@@ -167,7 +177,7 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .jcard.jleft{left:0;text-align:right;padding-right:14px}
 .jcard.jright{right:0;text-align:left;padding-left:14px}
 .jcard-inner{background:linear-gradient(145deg,rgba(243,232,216,.9),rgba(236,220,200,.9));border:1px solid rgba(139,18,18,.2);padding:14px 16px;border-radius:2px;backdrop-filter:blur(4px)}
-.tl-year{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px}
+.tl-year{font-family:'Montserrat',sans-serif;font-weight:700;font-size:9px;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px}
 .tl-event{font-family:'Great Vibes',cursive;font-size:26px;color:var(--gold-light);line-height:1.1;margin-bottom:4px}
 .tl-desc{font-family:'Cormorant Garamond',serif;font-size:13.5px;font-style:italic;color:rgba(42,8,8,.6);line-height:1.5}
 @media(max-width:600px){
@@ -301,6 +311,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
     <div class="corner-piece bl"><svg viewBox="0 0 90 90" fill="none"><path d="M4,4 L4,42" stroke="#c9a84c" stroke-width=".9"/><path d="M4,4 L42,4" stroke="#c9a84c" stroke-width=".9"/><path d="M4,4 Q24,4 24,24" stroke="#c9a84c" stroke-width=".6"/><path d="M4,4 Q4,24 24,24" stroke="#c9a84c" stroke-width=".6"/><circle cx="24" cy="24" r="2.5" fill="none" stroke="#c9a84c" stroke-width=".7"/><circle cx="4" cy="4" r="3" fill="#c9a84c"/></svg></div>
     <div class="corner-piece br"><svg viewBox="0 0 90 90" fill="none"><path d="M4,4 L4,42" stroke="#c9a84c" stroke-width=".9"/><path d="M4,4 L42,4" stroke="#c9a84c" stroke-width=".9"/><path d="M4,4 Q24,4 24,24" stroke="#c9a84c" stroke-width=".6"/><path d="M4,4 Q4,24 24,24" stroke="#c9a84c" stroke-width=".6"/><circle cx="24" cy="24" r="2.5" fill="none" stroke="#c9a84c" stroke-width=".7"/><circle cx="4" cy="4" r="3" fill="#c9a84c"/></svg></div>
   </div>
+  <audio id="bg-music" src="/songs/song.mp3" loop preload="none"></audio>
   <div id="envelope-wrap" onclick="openEnvelope()">
     <svg id="envelope-svg" viewBox="0 0 380 290" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -344,7 +355,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
 
 <!-- NAV -->
 <nav>
-  <span class="nav-brand">V &amp; R</span>
+  <span class="nav-brand"><img src="/photos/logo/logo.png" alt="V & R"></span>
   <div class="nav-links" id="nav-links">
     <a href="#hero" onclick="closeMenu()">Home</a>
     <a href="#the-date" onclick="closeMenu()">The Date</a>
@@ -355,6 +366,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
     <a href="#photos" onclick="closeMenu()">Photos</a>
     <a href="#rsvp" onclick="closeMenu()">RSVP</a>
   </div>
+  <button class="nav-mute" id="nav-mute" onclick="toggleMute()" aria-label="Mute music"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
   <button class="nav-burger" id="nav-burger" onclick="toggleMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -650,9 +662,29 @@ function closeMenu(){
   document.getElementById('nav-links').classList.remove('open');
 }
 
+/* ── MUSIC ── */
+const ICON_SOUND='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+const ICON_MUTE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+function toggleMute(){
+  const music=document.getElementById('bg-music');
+  const btn=document.getElementById('nav-mute');
+  if(!music)return;
+  music.muted=!music.muted;
+  btn.innerHTML=music.muted?ICON_MUTE:ICON_SOUND;
+}
+
 /* ── ENVELOPE ── */
 function openEnvelope(){
   document.getElementById('envelope-wrap').classList.add('opening');
+  const music=document.getElementById('bg-music');
+  music.volume=0;
+  music.play().catch(()=>{});
+  let vol=0;
+  const fadeIn=setInterval(()=>{
+    vol=Math.min(vol+0.012,0.35);
+    music.volume=vol;
+    if(vol>=0.35)clearInterval(fadeIn);
+  },80);
   setTimeout(()=>{
     const intro=document.getElementById('intro');
     intro.classList.add('hidden');
