@@ -24,16 +24,17 @@ app.get('/photos', (req, res) => {
 
 // Save RSVP to CSV
 app.post('/rsvp', (req, res) => {
-  const { name, email, attending, guests, dietary, note } = req.body;
-  if (!name || !email) return res.status(400).json({ error: 'Name and email required' });
+  const { name, attending, guests, guestNames, note } = req.body;
+  if (!name) return res.status(400).json({ error: 'Name required' });
 
   const timestamp = new Date().toLocaleString('en-CA', { timeZone: 'America/Edmonton' });
-  const row = [timestamp, name, email, attending || '', guests || '1', dietary || '', note || '']
+  const guestNamesStr = Array.isArray(guestNames) ? guestNames.join('; ') : '';
+  const row = [timestamp, name, attending || '', guests || '1', guestNamesStr, note || '']
     .map(v => `"${String(v).replace(/"/g, '""')}"`)
     .join(',') + '\n';
 
   if (!fs.existsSync(CSV_FILE)) {
-    fs.writeFileSync(CSV_FILE, '"Timestamp","Name","Email","Attending","Guests","Dietary","Note"\n');
+    fs.writeFileSync(CSV_FILE, '"Timestamp","Name","Attending","Guests","Guest Names","Note"\n');
   }
   fs.appendFileSync(CSV_FILE, row);
   res.json({ success: true });

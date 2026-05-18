@@ -1,8 +1,8 @@
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { name, email, attending, guests, dietary, note } = req.body;
-  if (!name || !email) return res.status(400).json({ error: 'Missing required fields' });
+  const { name, attending, guests, guestNames, note } = req.body;
+  if (!name) return res.status(400).json({ error: 'Missing required fields' });
 
   // Forward to Google Apps Script if configured (set RSVP_SHEET_URL in Vercel env vars)
   const sheetUrl = process.env.RSVP_SHEET_URL;
@@ -13,7 +13,9 @@ module.exports = async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           timestamp: new Date().toLocaleString('en-CA', { timeZone: 'America/Edmonton' }),
-          name, email, attending, guests, dietary, note
+          name, attending, guests,
+          guestNames: Array.isArray(guestNames) ? guestNames.join('; ') : '',
+          note
         })
       });
     } catch (e) {
