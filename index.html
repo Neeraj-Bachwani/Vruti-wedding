@@ -268,22 +268,22 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 #rsvp{background:linear-gradient(180deg,#f3e8d8 0%,#ecdcc8 50%,#f3e8d8 100%)}
 .rsvp-card{background:linear-gradient(155deg,#f3e8d8,#ecdcc8);border:1px solid rgba(139,18,18,.45);padding:clamp(28px,5vw,48px) clamp(24px,5vw,48px);max-width:480px;width:100%;position:relative;margin-top:32px}
 .rsvp-card::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(139,18,18,.18);pointer-events:none}
-.rsvp-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(42,8,8,.65);margin-bottom:28px;line-height:1.6}
+.rsvp-note{font-family:'Montserrat',sans-serif;font-size:14px;color:rgba(42,8,8,.65);margin-bottom:28px;line-height:1.7;letter-spacing:.02em}
 .field-group{margin-bottom:18px;text-align:left}
-.field-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.28em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:6px}
-.field-input{width:100%;background:rgba(236,220,200,.8);border:1px solid rgba(139,18,18,.28);color:var(--text-cream);font-family:'Cormorant Garamond',serif;font-size:16px;padding:12px 14px;outline:none;transition:border-color .3s ease,box-shadow .3s ease}
+.field-label{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:6px}
+.field-input{width:100%;background:rgba(236,220,200,.8);border:1px solid rgba(139,18,18,.28);color:var(--text-cream);font-family:'Montserrat',sans-serif;font-size:15px;padding:12px 14px;outline:none;transition:border-color .3s ease,box-shadow .3s ease}
 .field-input:focus{border-color:rgba(139,18,18,.65);box-shadow:0 0 20px rgba(139,18,18,.1)}
-.field-select{width:100%;background:#ecdcc8;border:1px solid rgba(139,18,18,.28);color:var(--text-cream);font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;padding:12px 14px;outline:none;cursor:pointer;transition:border-color .3s ease;-webkit-appearance:none;appearance:none;color-scheme:light}
+.field-select{width:100%;background:#ecdcc8;border:1px solid rgba(139,18,18,.28);color:var(--text-cream);font-family:'Montserrat',sans-serif;font-weight:500;font-size:14px;padding:12px 14px;outline:none;cursor:pointer;transition:border-color .3s ease;-webkit-appearance:none;appearance:none;color-scheme:light}
 .field-select:focus{border-color:rgba(139,18,18,.65)}
 .field-select option{background:#ecdcc8;color:var(--text-cream)}
 .field-select option:hover,.field-select option:checked{background:#8b1212;color:#f3e8d8}
 .radio-group{display:flex;gap:16px;flex-wrap:wrap}
-.radio-label{display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase}
+.radio-label{display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;font-size:13px;letter-spacing:.08em;color:var(--gold-dim);text-transform:uppercase}
 .radio-label input{display:none}
 .radio-custom{width:14px;height:14px;border:1px solid rgba(139,18,18,.38);border-radius:50%;position:relative;flex-shrink:0;transition:border-color .3s}
 .radio-label input:checked ~ .radio-custom{border-color:var(--red)}
 .radio-label input:checked ~ .radio-custom::after{content:'';position:absolute;inset:3px;background:var(--red);border-radius:50%}
-.rsvp-btn{width:100%;margin-top:8px;padding:15px 24px;background:linear-gradient(135deg,var(--red-deep),var(--red),var(--red-deep));border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.38em;color:#f3e8d8;text-transform:uppercase;transition:opacity .3s ease,box-shadow .3s ease;position:relative;overflow:hidden}
+.rsvp-btn{width:100%;margin-top:8px;padding:15px 24px;background:linear-gradient(135deg,var(--red-deep),var(--red),var(--red-deep));border:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;color:#f3e8d8;text-transform:uppercase;transition:opacity .3s ease,box-shadow .3s ease;position:relative;overflow:hidden}
 .rsvp-btn:hover{opacity:.9;box-shadow:0 0 30px rgba(139,18,18,.4)}
 .rsvp-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.15) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s ease}
 .rsvp-btn:hover::before{transform:translateX(100%)}
@@ -523,7 +523,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
       <div class="day-title">August 16, 2026 — Sunday</div>
       <div class="day-sub">The Wedding</div>
       <div class="day-venue">Winterburn Barn Venue · Edmonton</div>
-      <div class="sched-item"><div class="sched-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22V12l4-8 4 8v10"/><path d="M2 22h20"/><path d="M3 7l3 5M21 7l-3 5"/></svg></div><div class="sched-info"><div class="sched-time">6:00 PM</div><div class="sched-event">Cocktail Hour</div></div></div>
+      <div class="sched-item"><div class="sched-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 14z"/><line x1="12" y1="14" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg></div><div class="sched-info"><div class="sched-time">6:00 PM</div><div class="sched-event">Cocktail Hour</div></div></div>
       <div class="sched-item"><div class="sched-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="sched-info"><div class="sched-time">6:45 PM</div><div class="sched-event">Guests to Be Seated</div></div></div>
       <div class="sched-item"><div class="sched-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="sched-info"><div class="sched-time">7:00 PM</div><div class="sched-event">Ceremony Begins</div></div></div>
       <div class="sched-item"><div class="sched-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div class="sched-info"><div class="sched-time">8:00 PM</div><div class="sched-event">Reception Begins</div></div></div>
@@ -552,8 +552,8 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
     </div>
   </div>
   <div class="reveal reveal-d4" style="margin-top:24px">
-    <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px">Edmonton Weather in August</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(42,8,8,.6)">15°C – 26°C · Pleasant days, cool evenings<br>We recommend a light shawl for evening events</div>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:10px">Edmonton Weather in August</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:14px;color:rgba(42,8,8,.6);line-height:1.8">15°C – 26°C · Pleasant days, cool evenings<br>We recommend a light shawl for evening events</div>
   </div>
 </section>
 
@@ -621,7 +621,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
       </div>
       <div class="field-group"><label class="field-label">Number of Guests</label><select class="field-select" id="rsvp-guests" onchange="updateGuestNames()"><option value="1">1 Guest</option><option value="2">2 Guests</option><option value="3">3 Guests</option><option value="4">4 Guests</option></select></div>
       <div id="guest-names-wrap"></div>
-      <div class="field-group"><label class="field-label">A Note for the Couple</label><textarea class="field-input" rows="3" placeholder="Share your wishes..." id="rsvp-note" style="resize:vertical;font-family:'Cormorant Garamond',serif;font-size:16px"></textarea></div>
+      <div class="field-group"><label class="field-label">A Note for the Couple</label><textarea class="field-input" rows="3" placeholder="Share your wishes..." id="rsvp-note" style="resize:vertical;font-family:'Montserrat',sans-serif;font-size:15px"></textarea></div>
       <button class="rsvp-btn" onclick="submitRSVP()">Send With Love ✦</button>
     </div>
     <div class="rsvp-success" id="rsvp-success">
