@@ -615,13 +615,15 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
       <div class="field-group">
         <label class="field-label">Will you be joining us?</label>
         <div class="radio-group">
-          <label class="radio-label"><input type="radio" name="attending" value="yes"><span class="radio-custom"></span>Joyfully accepts</label>
-          <label class="radio-label"><input type="radio" name="attending" value="no"><span class="radio-custom"></span>Regretfully declines</label>
+          <label class="radio-label"><input type="radio" name="attending" value="yes" onchange="toggleAttending()"><span class="radio-custom"></span>Joyfully accepts</label>
+          <label class="radio-label"><input type="radio" name="attending" value="no" onchange="toggleAttending()"><span class="radio-custom"></span>Regretfully declines</label>
         </div>
       </div>
+      <div id="rsvp-extra-fields" style="overflow:hidden;transition:max-height .4s ease,opacity .4s ease;max-height:600px;opacity:1">
       <div class="field-group"><label class="field-label">Number of Guests</label><select class="field-select" id="rsvp-guests" onchange="updateGuestNames()"><option value="1">1 Guest</option><option value="2">2 Guests</option><option value="3">3 Guests</option><option value="4">4 Guests</option></select></div>
       <div id="guest-names-wrap"></div>
       <div class="field-group"><label class="field-label">A Note for the Couple</label><textarea class="field-input" rows="3" placeholder="Share your wishes..." id="rsvp-note" style="resize:vertical;font-family:'Montserrat',sans-serif;font-size:15px"></textarea></div>
+      </div>
       <button class="rsvp-btn" onclick="submitRSVP()">Send With Love ✦</button>
     </div>
     <div class="rsvp-success" id="rsvp-success">
@@ -871,6 +873,12 @@ function initScratch(){
 }
 
 /* ── RSVP ── */
+function toggleAttending(){
+  const declining=document.querySelector('input[name="attending"]:checked')?.value==='no';
+  const extra=document.getElementById('rsvp-extra-fields');
+  extra.style.maxHeight=declining?'0':'600px';
+  extra.style.opacity=declining?'0':'1';
+}
 function updateGuestNames(){
   const count=parseInt(document.getElementById('rsvp-guests').value)||1;
   const wrap=document.getElementById('guest-names-wrap');
