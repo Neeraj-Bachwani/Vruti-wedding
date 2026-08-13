@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share Your Photos & Videos — Vruti & Ravneet</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;background:#f3e8d8;
+    background-image:radial-gradient(circle at 15% 15%,rgba(139,18,18,0.07) 0%,transparent 50%),radial-gradient(circle at 85% 85%,rgba(139,18,18,0.06) 0%,transparent 50%);
+    font-family:'Cormorant Garamond',serif;color:#2a0808;
+    display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;
+  }
+  .title{font-family:'Great Vibes',cursive;font-size:48px;color:#8b1212;text-align:center;margin-bottom:4px}
+  .subtitle{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.3em;color:#9b2020;text-transform:uppercase;margin-bottom:28px;text-align:center}
+  .card{background:linear-gradient(155deg,#f3e8d8,#ecdcc8);border:1px solid rgba(139,18,18,.4);padding:28px 22px;max-width:420px;width:100%;text-align:center}
+  .field-label{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.25em;color:#9b2020;text-transform:uppercase;display:block;margin-bottom:8px;text-align:left}
+  input[type=text]{width:100%;background:rgba(236,220,200,.8);border:1px solid rgba(139,18,18,.28);color:#2a0808;font-family:'Montserrat',sans-serif;font-size:15px;padding:12px 14px;outline:none;margin-bottom:20px}
+  .upload-zone{border:2px dashed rgba(139,18,18,.4);padding:30px 16px;cursor:pointer;margin-bottom:20px;transition:background .2s}
+  .upload-zone:active{background:rgba(139,18,18,.05)}
+  .upload-zone svg{width:34px;height:34px;stroke:#9b2020;margin-bottom:10px}
+  .upload-zone p{font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:.1em;color:#9b2020;text-transform:uppercase}
+  .upload-zone .sub{font-size:10px;letter-spacing:.05em;color:rgba(155,32,32,.6);margin-top:6px;text-transform:none}
+  input[type=file]{display:none}
+  .preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+  .preview-item{position:relative;width:100%;aspect-ratio:1;border:1px solid rgba(139,18,18,.3);overflow:hidden}
+  .preview-item img,.preview-item video{width:100%;height:100%;object-fit:cover;display:block}
+  .preview-item .badge{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;padding:2px 5px;border-radius:2px;font-family:'Montserrat',sans-serif}
+  .preview-item .bar{position:absolute;left:0;bottom:0;height:3px;background:#8b1212;width:0%;transition:width .2s}
+  button.submit{width:100%;padding:15px;background:linear-gradient(135deg,#5e0a0a,#8b1212,#5e0a0a);border:none;color:#f3e8d8;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.25em;text-transform:uppercase;cursor:pointer}
+  button.submit:disabled{opacity:.5}
+  .status{margin-top:16px;font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:.05em;color:#9b2020}
+  .success{display:none;text-align:center;padding:20px 0}
+  .success .big{font-family:'Great Vibes',cursive;font-size:40px;color:#8b1212}
+</style>
+</head>
+<body>
+  <div class="title">Vruti & Ravneet</div>
+  <div class="subtitle">Share your photos & videos with us</div>
+  <div class="card" id="upload-card">
+    <label class="field-label">Your Name</label>
+    <input type="text" id="uploader-name" placeholder="So we know who to thank">
+
+    <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <p>Tap to take or choose photos & videos</p>
+      <div class="sub">Videos work too — keep clips under ~30s if you can</div>
+    </div>
+    <input type="file" id="file-input" accept="image/*,video/*" capture="environment" multiple>
+
+    <div class="preview-grid" id="preview-grid"></div>
+
+    <button class="submit" id="submit-btn" onclick="uploadAll()" disabled>Upload</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card success" id="success-card">
+    <div class="big">Thank You!</div>
+    <p style="margin-top:10px">Your photos & videos are on their way to the gallery ✦</p>
+    <button class="submit" style="margin-top:20px" onclick="resetForm()">Upload More</button>
+  </div>
+
+<script>
+let selectedFiles = [];
+
+document.getElementById('file-input').addEventListener('change', (e) => {
+  selectedFiles = Array.from(e.target.files);
+  renderPreviews();
+});
+
+function renderPreviews() {
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = '';
+  selectedFiles.forEach((file, i) => {
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    item.id = 'preview-' + i;
+    const isVideo = file.type.startsWith('video/');
+    const el = document.createElement(isVideo ? 'video' : 'img');
+    el.src = URL.createObjectURL(file);
+    if (isVideo) el.muted = true;
+    item.appendChild(el);
+    if (isVideo) {
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = 'VIDEO';
+      item.appendChild(badge);
+    }
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.id = 'bar-' + i;
+    item.appendChild(bar);
+    grid.appendChild(item);
+  });
+  document.getElementById('submit-btn').disabled = selectedFiles.length === 0;
+}
+
+function uploadOne(file, index, uploaderName) {
+  return new Promise(async (resolve) => {
+    try {
+      // 1. Ask our server for a presigned R2 upload URL
+      const presignRes = await fetch('/api/upload-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: file.name,
+          contentType: file.type || 'application/octet-stream',
+          uploader: uploaderName,
+        }),
+      });
+      const { uploadUrl } = await presignRes.json();
+
+      // 2. Upload the file straight to R2 with progress tracking
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', uploadUrl);
+      xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100);
+          const bar = document.getElementById('bar-' + index);
+          if (bar) bar.style.width = pct + '%';
+        }
+      };
+      xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
+      xhr.onerror = () => resolve(false);
+      xhr.send(file);
+    } catch (err) {
+      console.error('Upload failed', err);
+      resolve(false);
+    }
+  });
+}
+
+async function uploadAll() {
+  const name = document.getElementById('uploader-name').value.trim() || 'Guest';
+  const btn = document.getElementById('submit-btn');
+  const status = document.getElementById('status');
+  btn.disabled = true;
+
+  for (let i = 0; i < selectedFiles.length; i++) {
+    status.textContent = `Uploading ${i + 1} of ${selectedFiles.length}…`;
+    await uploadOne(selectedFiles[i], i, name);
+  }
+
+  status.textContent = '';
+  document.getElementById('upload-card').style.display = 'none';
+  document.getElementById('success-card').style.display = 'block';
+}
+
+function resetForm() {
+  selectedFiles = [];
+  document.getElementById('file-input').value = '';
+  document.getElementById('preview-grid').innerHTML = '';
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('upload-card').style.display = 'block';
+  document.getElementById('success-card').style.display = 'none';
+}
+</script>
+</body>
+</html>

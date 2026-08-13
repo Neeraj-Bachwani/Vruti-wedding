@@ -255,6 +255,8 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .photo-cell:hover img{transform:scale(1.05)}
 .gallery-empty{grid-column:1/-1;text-align:center;padding:48px 24px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(42,8,8,.5);line-height:1.8}
 .gallery-empty strong{font-style:normal;font-family:'Cinzel',serif;font-size:12px;color:var(--gold-dim);letter-spacing:.15em}
+.photo-cell video{width:100%;height:100%;object-fit:cover;display:block}
+.video-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:22px;text-shadow:0 0 8px rgba(0,0,0,.6);pointer-events:none}
 /* ── LIGHTBOX ── */
 #lightbox{display:none;opacity:0;position:fixed;inset:0;z-index:9999;background:rgba(11,2,2,.96);align-items:center;justify-content:center;transition:opacity .3s ease;flex-direction:column}
 .lb-close{position:absolute;top:18px;right:22px;background:none;border:none;color:rgba(243,232,216,.7);font-size:30px;cursor:pointer;line-height:1;padding:4px 8px}
@@ -263,6 +265,8 @@ section{position:relative;min-height:100vh;display:flex;align-items:center;justi
 .lb-nav:hover{border-color:rgba(243,232,216,.6);color:#f3e8d8}
 .lb-prev{left:16px}.lb-next{right:16px}
 .lb-img{max-width:90vw;max-height:85vh;object-fit:contain;transition:opacity .2s ease;border:1px solid rgba(201,168,76,.15)}
+.lb-download{position:absolute;top:18px;right:70px;background:none;border:1px solid rgba(243,232,216,.3);color:rgba(243,232,216,.8);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .2s,color .2s}
+.lb-download:hover{border-color:rgba(243,232,216,.7);color:#f3e8d8}
 
 /* ── RSVP ── */
 #rsvp{background:linear-gradient(180deg,#f3e8d8 0%,#ecdcc8 50%,#f3e8d8 100%)}
@@ -365,6 +369,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
     <a href="#venue" onclick="closeMenu()">Venue</a>
     <a href="#dress-code" onclick="closeMenu()">Dress Code</a>
     <a href="#photos" onclick="closeMenu()">Photos</a>
+    <a href="#guest-photos" onclick="closeMenu()">Guest Photos</a>
     <a href="#rsvp" onclick="closeMenu()">RSVP</a>
   </div>
   <button class="nav-mute" id="nav-mute" onclick="toggleMute()" aria-label="Mute music"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
@@ -598,6 +603,21 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
   <div class="gold-rule reveal reveal-d2"></div>
   <div class="photo-grid reveal reveal-d3" id="gallery-grid">
     <div class="gallery-empty">Loading gallery…</div>
+  </div>
+</section>
+
+<!-- GUEST PHOTOS -->
+<section id="guest-photos">
+  <div class="section-bg-ornament"></div>
+  <div class="section-rose tl"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="translate(50,50)"><path d="M0,-38 C10,-38 20,-25 18,-12 C16,1 4,8 0,12 C-4,8 -16,1 -18,-12 C-20,-25 -10,-38 0,-38 Z" fill="#8b1212"/><path d="M0,-38 C10,-38 20,-25 18,-12 C16,1 4,8 0,12 C-4,8 -16,1 -18,-12 C-20,-25 -10,-38 0,-38 Z" fill="#8b1212" transform="rotate(72)"/><path d="M0,-38 C10,-38 20,-25 18,-12 C16,1 4,8 0,12 C-4,8 -16,1 -18,-12 C-20,-25 -10,-38 0,-38 Z" fill="#8b1212" transform="rotate(144)"/><path d="M0,-38 C10,-38 20,-25 18,-12 C16,1 4,8 0,12 C-4,8 -16,1 -18,-12 C-20,-25 -10,-38 0,-38 Z" fill="#8b1212" transform="rotate(216)"/><path d="M0,-38 C10,-38 20,-25 18,-12 C16,1 4,8 0,12 C-4,8 -16,1 -18,-12 C-20,-25 -10,-38 0,-38 Z" fill="#8b1212" transform="rotate(288)"/><circle r="11" fill="#6b1010"/><circle r="5" fill="#9b2020"/></g></svg></div>
+  <div class="section-eyebrow reveal">Captured By You</div>
+  <div class="section-title reveal reveal-d1">Guest Photos</div>
+  <div class="gold-rule reveal reveal-d2"></div>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(42,8,8,.55);max-width:420px;margin-top:4px" class="reveal reveal-d2">
+    Snapshots shared by our guests throughout the celebration
+  </div>
+  <div class="photo-grid reveal reveal-d3" id="guest-gallery-grid">
+    <div class="gallery-empty">Photos will appear here as they're shared ✦</div>
   </div>
 </section>
 
@@ -922,8 +942,8 @@ async function submitRSVP(){
   spawnConfetti(160,false);
 }
 
-/* ── GALLERY ── */
-let lbPhotos=[],lbIdx=0;
+/* ── GALLERY (couple's curated photos) ── */
+let lbPhotos=[],lbTypes=[],lbIdx=0;
 const lbPatterns=[0,1,2,1,1,0,1,1,2,1];
 const GALLERY_ORDER=[
   "/photos/A031AEDE-A7DF-4074-9721-03B1F7B6B6D7.jpg",
@@ -937,7 +957,6 @@ const GALLERY_ORDER=[
 function initGallery(){
   const grid=document.getElementById('gallery-grid');
   if(!grid)return;
-  lbPhotos=[...GALLERY_ORDER];
   grid.innerHTML='';
   GALLERY_ORDER.forEach((src,i)=>{
     const p=lbPatterns[i%lbPatterns.length];
@@ -946,14 +965,87 @@ function initGallery(){
     const img=document.createElement('img');
     img.src=src;img.alt='Wedding photo '+(i+1);img.loading='lazy';
     cell.appendChild(img);
-    cell.addEventListener('click',()=>openLightbox(i));
+    cell.addEventListener('click',()=>{
+      lbPhotos=[...GALLERY_ORDER];
+      lbTypes=GALLERY_ORDER.map(()=>'image');
+      openLightbox(i);
+    });
     grid.appendChild(cell);
   });
+}
+
+/* ── GUEST PHOTOS (uploaded via R2, separate gallery) ── */
+async function initGuestGallery(){
+  const grid=document.getElementById('guest-gallery-grid');
+  if(!grid)return;
+
+  let items=[];
+  try{
+    const res=await fetch('/api/guest-photos');
+    const data=await res.json();
+    items=data.items||[];
+  }catch(e){ console.warn('Could not load guest uploads', e); }
+
+  if(items.length===0){
+    grid.innerHTML = '<div class="gallery-empty">Photos will appear here as they\'re shared ✦</div>';
+    return;
+  }
+
+  grid.innerHTML='';
+  items.forEach((item,i)=>{
+    const p=lbPatterns[i%lbPatterns.length];
+    const cell=document.createElement('div');
+    cell.className='photo-cell'+(p===0?' wide':p===2?' tall':'');
+    cell.style.position='relative';
+    if(item.type==='video'){
+      const vid=document.createElement('video');
+      vid.src=item.url; vid.muted=true; vid.playsInline=true; vid.preload='metadata';
+      cell.appendChild(vid);
+      const badge=document.createElement('div');
+      badge.className='video-badge';
+      badge.textContent='▶';
+      cell.appendChild(badge);
+    }else{
+      const img=document.createElement('img');
+      img.src=item.url;img.alt='Guest photo '+(i+1);img.loading='lazy';
+      cell.appendChild(img);
+    }
+    cell.addEventListener('click',()=>{
+      lbPhotos=items.map(it=>it.url);
+      lbTypes=items.map(it=>it.type);
+      openLightbox(i);
+    });
+    grid.appendChild(cell);
+  });
+}
+
+initGuestGallery();
+setInterval(()=>{ if(document.getElementById('guest-gallery-grid')) initGuestGallery(); }, 20000);
+
+/* ── LIGHTBOX (shared by both galleries, handles image + video) ── */
+function showLightboxMedia(idx){
+  const isVideo = lbTypes[idx]==='video';
+  const imgEl=document.getElementById('lb-img-el');
+  const vidEl=document.getElementById('lb-video');
+  const dl=document.getElementById('lb-download');
+  if(isVideo){
+    imgEl.style.display='none';
+    vidEl.style.display='block';
+    vidEl.src=lbPhotos[idx];
+    vidEl.currentTime=0;
+  }else{
+    vidEl.pause();
+    vidEl.style.display='none';
+    vidEl.removeAttribute('src');
+    imgEl.style.display='block';
+    imgEl.src=lbPhotos[idx];
+  }
+  if(dl) dl.href=lbPhotos[idx];
 }
 function openLightbox(idx){
   lbIdx=idx;
   const lb=document.getElementById('lightbox');
-  lb.querySelector('.lb-img').src=lbPhotos[idx];
+  showLightboxMedia(idx);
   lb.style.display='flex';
   requestAnimationFrame(()=>lb.style.opacity='1');
   document.body.style.overflow='hidden';
@@ -961,13 +1053,15 @@ function openLightbox(idx){
 function closeLightbox(){
   const lb=document.getElementById('lightbox');
   lb.style.opacity='0';
+  const vidEl=document.getElementById('lb-video');
+  if(vidEl) vidEl.pause();
   setTimeout(()=>{lb.style.display='none';document.body.style.overflow='';},300);
 }
 function lightboxNav(dir){
   lbIdx=(lbIdx+dir+lbPhotos.length)%lbPhotos.length;
-  const img=document.getElementById('lightbox').querySelector('.lb-img');
-  img.style.opacity='0';
-  setTimeout(()=>{img.src=lbPhotos[lbIdx];img.style.opacity='1';},200);
+  const imgEl=document.getElementById('lb-img-el');
+  imgEl.style.opacity='0';
+  setTimeout(()=>{showLightboxMedia(lbIdx);imgEl.style.opacity='1';},200);
 }
 function lbBgClick(e){if(e.target===document.getElementById('lightbox'))closeLightbox();}
 document.addEventListener('keydown',e=>{
@@ -1079,8 +1173,12 @@ function initMobileMap(){
 <!-- LIGHTBOX -->
 <div id="lightbox" onclick="lbBgClick(event)">
   <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <a class="lb-download" id="lb-download" download title="Download">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  </a>
   <button class="lb-nav lb-prev" onclick="lightboxNav(-1)">&#8249;</button>
-  <img class="lb-img" src="" alt="">
+  <img class="lb-img" id="lb-img-el" src="" alt="">
+  <video class="lb-img" id="lb-video" controls playsinline style="display:none"></video>
   <button class="lb-nav lb-next" onclick="lightboxNav(1)">&#8250;</button>
 </div>
 </body>
