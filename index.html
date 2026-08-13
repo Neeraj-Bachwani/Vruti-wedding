@@ -619,6 +619,7 @@ footer{text-align:center;padding:52px 28px;background:var(--bg);border-top:.5px 
   <div class="photo-grid reveal reveal-d3" id="guest-gallery-grid">
     <div class="gallery-empty">Photos will appear here as they're shared ✦</div>
   </div>
+  <div id="guest-gallery-toggle" style="margin-top:24px"></div>
 </section>
 
 <!-- RSVP -->
@@ -975,8 +976,12 @@ function initGallery(){
 }
 
 /* ── GUEST PHOTOS (uploaded via R2, separate gallery) ── */
+let guestGalleryExpanded = false;
+const GUEST_GALLERY_PREVIEW_COUNT = 5;
+
 async function initGuestGallery(){
   const grid=document.getElementById('guest-gallery-grid');
+  const toggleWrap=document.getElementById('guest-gallery-toggle');
   if(!grid)return;
 
   let items=[];
@@ -988,11 +993,14 @@ async function initGuestGallery(){
 
   if(items.length===0){
     grid.innerHTML = '<div class="gallery-empty">Photos will appear here as they\'re shared ✦</div>';
+    if(toggleWrap) toggleWrap.innerHTML='';
     return;
   }
 
+  const visibleItems = guestGalleryExpanded ? items : items.slice(0, GUEST_GALLERY_PREVIEW_COUNT);
+
   grid.innerHTML='';
-  items.forEach((item,i)=>{
+  visibleItems.forEach((item,i)=>{
     const p=lbPatterns[i%lbPatterns.length];
     const cell=document.createElement('div');
     cell.className='photo-cell'+(p===0?' wide':p===2?' tall':'');
@@ -1017,6 +1025,19 @@ async function initGuestGallery(){
     });
     grid.appendChild(cell);
   });
+
+  if(toggleWrap){
+    if(items.length<=GUEST_GALLERY_PREVIEW_COUNT){
+      toggleWrap.innerHTML='';
+    }else{
+      const label = guestGalleryExpanded ? 'Show Fewer' : `See All ${items.length} Photos & Videos`;
+      toggleWrap.innerHTML = `<button id="guest-toggle-btn" class="venue-map-link" style="background:none;cursor:pointer;font-family:'Montserrat',sans-serif">${label}</button>`;
+      document.getElementById('guest-toggle-btn').addEventListener('click',()=>{
+        guestGalleryExpanded=!guestGalleryExpanded;
+        initGuestGallery();
+      });
+    }
+  }
 }
 
 initGuestGallery();
